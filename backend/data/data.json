@@ -24,6 +24,13 @@
       "taux": null,
       "jour": 2,
       "valeurConstante": -300000
+    },
+    {
+      "libelle": "huile",
+      "valeur": 12500,
+      "dateDebut":"2024-08-30T21:00:00.000Z",
+      "dateFin":null,
+      "taux": 8
     }
   ]
 }

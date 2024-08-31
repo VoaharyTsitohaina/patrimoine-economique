@@ -33,7 +33,7 @@ const CreatePossessionPage = () => {
 
   return (
     <Container>
-      <h1>Create New Possession</h1>
+      <h1>Créer une nouvelle possession</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="libelle">
           <Form.Label>Libelle</Form.Label>

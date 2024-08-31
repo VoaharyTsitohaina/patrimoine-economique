@@ -55,8 +55,7 @@ const ListPossessionPage = () => {
             <th>Date Début</th>
             <th>Date Fin</th>
             <th>Taux</th>
-            <th>Valeur Actuelle</th>
-            <th>Actions</th>
+            <th>Amortissement</th>
           </tr>
         </thead>
         <tbody>

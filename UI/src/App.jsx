@@ -1,24 +1,24 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import ListPossessionPage from './pages/ListPossessionPage';
-import CreatePossessionPage from './pages/CreatePossessionPage';
-import UpdatePossessionPage from './pages/UpdatePossessionPage';
-import PatrimoinePage from './pages/PatrimoinePage';
-import NavigationBar from './components/NavigationBar';
+import Home from './components/Home';
+import AddPossession from './components/AddPossession';
+import Navigation from './components/Navigation'; 
+import PossessionList from './PossessionList';
+import LineChartPage from './LineChartPage';
 
-const App = () => {
+
+function App() {
   return (
     <Router>
-      <NavigationBar />
+      <Navigation /> 
       <Routes>
-        <Route path="/possession" element={<ListPossessionPage />} />
-        <Route path="/possession/create" element={<CreatePossessionPage />} />
-        <Route path="/possession/:libelle/update" element={<UpdatePossessionPage />} />
-        <Route path="/patrimoine" element={<PatrimoinePage />} />
-        {/* Autres routes si nécessaire */}
+        <Route path="/" element={<Home />} />
+        <Route path="/possessions" element={<PossessionList />} />
+        <Route path="/add" element={<AddPossession />} />
+        <Route path="/chart" element={<LineChartPage />} /> 
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;

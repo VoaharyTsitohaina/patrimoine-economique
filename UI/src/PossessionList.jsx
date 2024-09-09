@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FaEdit, FaTrashAlt, FaTimes } from 'react-icons/fa';
 import Possession from '../../models/possessions/Possession';
+import axios from 'axios';
 
 function PossessionList() {
   const [possessions, setPossessions] = useState([]);
@@ -18,8 +19,8 @@ function PossessionList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:5000/possession");
-        const jsonData = await response.json();
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/possession`);
+        const jsonData = response.data;
 
         if (jsonData) {
           const updatedPossessions = jsonData.map(pos => {
@@ -86,15 +87,11 @@ function PossessionList() {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/possession/${selectedPossession.libelle}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          libelle: updateForm.libelle,
-          dateFin: updateForm.dateFin
-        })
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/possession/${selectedPossession.libelle}`, {
+        libelle: updateForm.libelle,
+        dateFin: updateForm.dateFin
       });
-      const updatedPossession = await response.json();
+      const updatedPossession = response.data;
       setPossessions(possessions.map(p => p.libelle === updatedPossession.libelle ? updatedPossession : p));
       setShowUpdateModal(false);
     } catch (error) {
@@ -105,13 +102,9 @@ function PossessionList() {
   const handleClose = async (index) => {
     const possessionToClose = possessions[index];
     try {
-      await fetch(`http://localhost:5000/possession/${possessionToClose.libelle}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...possessionToClose,
-          dateFin: new Date().toISOString().split('T')[0]
-        })
+      await axios.put(`${import.meta.env.VITE_API_URL}/possession/${possessionToClose.libelle}`, {
+        ...possessionToClose,
+        dateFin: new Date().toISOString().split('T')[0]
       });
       const updatedPossessions = [...possessions];
       updatedPossessions[index].dateFin = new Date().toISOString().split('T')[0];
@@ -124,9 +117,7 @@ function PossessionList() {
   const handleDelete = async (index) => {
     const possessionToDelete = possessions[index];
     try {
-      await fetch(`http://localhost:5000/possession/${possessionToDelete.libelle}`, {
-        method: 'DELETE',
-      });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/possession/${possessionToDelete.libelle}`);
       const updatedPossessions = possessions.filter((_, i) => i !== index);
       setPossessions(updatedPossessions);
     } catch (error) {

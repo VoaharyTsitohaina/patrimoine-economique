@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import '../App.css'; 
+import axios from 'axios';
 
 function AddPossession() {
   const [libelle, setLibelle] = useState("");
@@ -14,6 +14,7 @@ function AddPossession() {
   const [valeurConstante, setValeurConstante] = useState(null); 
 
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL; // Utilisation de Vite pour les variables d'environnement
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,15 +32,13 @@ function AddPossession() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/possession", {
-        method: "POST",
+      const response = await axios.post(`${apiUrl}/possession`, newPossession, {
         headers: {
           "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newPossession),
+        }
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         alert("Possession ajoutée avec succès !");
         navigate("/"); 
       } else {

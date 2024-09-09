@@ -6,7 +6,18 @@ import { DATABASE_PATH, getDateRange, getPossessionsFromData, mapToPossessionMod
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+const allowedOrigins = ['https://patrimoine-economique-frontend-my1k.onrender.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 
 app.get('/possession', async (req, res) => {
@@ -146,7 +157,6 @@ app.delete('/possession/:libelle', async (req, res) => {
     }
   });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
